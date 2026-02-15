@@ -34,7 +34,7 @@ export default function DeckControl() {
         setStatus((prevStatus: any) => {
           prevStatus[data.slotId] = {
             id: data.slotId,
-            name: data.name,
+            pokemonId: data.pokemonId,
           };
 
           return prevStatus;
@@ -46,18 +46,18 @@ export default function DeckControl() {
   }, []);
 
   const updatePokemon = (slotId: number, nuevoPokemon: number) => {
-    socket.emit("update_pokemon", { slotId, name: nuevoPokemon });
+    socket.emit("update_pokemon", { slotId, pokemonId: nuevoPokemon });
   };
 
   const getPokemonNameForSlot = (slotId: number) => {
     const slot = status?.slots?.[slotId];
-    const pokemonId = slot?.name ?? 0;
+    const pokemonId = slot?.pokemonId ?? 0;
     return pokemons[pokemonId]?.name || "---";
   };
 
   const renderSlot = (slotId: number) => {
     const slot = status?.slots?.[slotId];
-    const pokemonId = slot?.name ?? 0;
+    const pokemonId = slot?.pokemonId ?? 0;
 
     return (
       <PokemonSelector
