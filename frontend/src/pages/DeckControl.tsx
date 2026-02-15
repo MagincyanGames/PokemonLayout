@@ -49,69 +49,40 @@ export default function DeckControl() {
     socket.emit("update_pokemon", { slotId, name: nuevoPokemon });
   };
 
+  const getPokemonNameForSlot = (slotId: number) => {
+    const slot = status?.slots?.[slotId];
+    const pokemonId = slot?.name ?? 0;
+    return pokemons[pokemonId]?.name || "---";
+  };
+
+  const renderSlot = (slotId: number) => {
+    const slot = status?.slots?.[slotId];
+    const pokemonId = slot?.name ?? 0;
+
+    return (
+      <PokemonSelector
+        key={slotId}
+        init={{
+          value: pokemonId,
+          label: getPokemonNameForSlot(slotId),
+        }}
+        onSelect={(val) => {
+          updatePokemon(slotId, val);
+        }}
+      />
+    );
+  };
+
   return (
     <div className="deck-control-container">
       <h1 className="deck-control-header">Panel de Control</h1>
       <div className="selectors-container">
         {status && pokemons.length > 0 ? (
-          <>
-            <PokemonSelector
-              init={{
-                value: status.slots[0].name,
-                label: pokemons[status.slots[0].name]?.name || "---",
-              }}
-              onSelect={(val) => {
-                updatePokemon(0, val);
-              }}
-            />
-            <PokemonSelector
-              init={{
-                value: status.slots[1].name,
-                label: pokemons[status.slots[1].name]?.name || "---",
-              }}
-              onSelect={(val) => {
-                updatePokemon(1, val);
-              }}
-            />
-            <PokemonSelector
-              init={{
-                value: status.slots[2].name,
-                label: pokemons[status.slots[2].name]?.name || "---",
-              }}
-              onSelect={(val) => {
-                updatePokemon(2, val);
-              }}
-            />
-            <PokemonSelector
-              init={{
-                value: status.slots[3].name,
-                label: pokemons[status.slots[3].name]?.name || "---",
-              }}
-              onSelect={(val) => {
-                updatePokemon(3, val);
-              }}
-            />
-            <PokemonSelector
-              init={{
-                value: status.slots[4].name,
-                label: pokemons[status.slots[4].name]?.name || "---",
-              }}
-              onSelect={(val) => {
-                updatePokemon(4, val);
-              }}
-            />
-            <PokemonSelector
-              init={{
-                value: status.slots[5].name,
-                label: pokemons[status.slots[5].name]?.name || "---",
-              }}
-              onSelect={(val) => {
-                updatePokemon(5, val);
-              }}
-            />
-          </>
+          <>{[0, 1, 2, 3, 4, 5].map((slotId) => renderSlot(slotId))}</>
         ) : (
-          <div style={{ color: "white", padding: "10px" }}>Cargando datos...</div>
+          <div style={{ color: "white", padding: "10px" }}>
+            Cargando datos...
+          </div>
         )}
       </div>
     </div>

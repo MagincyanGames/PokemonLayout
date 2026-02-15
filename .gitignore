@@ -10,5 +10,6 @@ frontend/node_modules
 frontend/public/pokemons
 frontend/src/data/pokemon_list.json.bak
 
-database.sqlite
+database.sqlite**
 scripts/parser/pokemon.txt
+
