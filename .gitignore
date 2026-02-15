@@ -8,7 +8,7 @@ backend/.sqlite
 frontend/dist
 frontend/node_modules
 frontend/public/pokemons
-frontend/src/data/pokemon_list.json
+frontend/src/data/pokemon_list.json.bak
 
 database.sqlite
 scripts/parser/pokemon.txt
