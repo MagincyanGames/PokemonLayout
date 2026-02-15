@@ -22,13 +22,21 @@ export class AppGateway implements OnGatewayConnection {
   handleConnection(client: Socket) {}
 
   @SubscribeMessage('update_pokemon')
-  async handleUpdate(@MessageBody() data: { slotId: number; pokemonId: number }) {
+  async handleUpdate(
+    @MessageBody()
+    data: {
+      slotId: number;
+      pokemonId: number;
+      isShiny: boolean;
+    },
+  ) {
     console.log('--- EVENTO RECIBIDO ---');
     console.log('Datos desde el cliente:', data);
 
     await this.repository.save({
       id: data.slotId,
       pokemonId: data.pokemonId,
+      isShiny: data.isShiny,
     });
 
     // 2. Avisamos a todo el mundo del cambio
@@ -44,6 +52,7 @@ export class AppGateway implements OnGatewayConnection {
       return {
         id: s.id,
         pokemonId: s.pokemonId,
+        isShiny: s.isShiny,
       };
     });
     console.log(slots);

@@ -8,9 +8,8 @@ export class PokemonSlot {
   @Column({ default: 0 })
   pokemonId: number;
 
-  @Column({ default: 0 })
-  level: number;
+  @Column({ default: false })
+  isShiny: boolean;
 
-  @Column({ nullable: true })
-  spriteUrl: string;
+  
 }

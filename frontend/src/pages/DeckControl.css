@@ -11,7 +11,7 @@
 .deck-control-header {
   text-align: center;
   margin-bottom: 20px;
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
 }
 
 .selectors-container {
@@ -20,25 +20,53 @@
   align-items: center;
   justify-content: flex-start;
   flex: 1;
-  gap: 15px;
+  gap: clamp(10px, 3vw, 20px);
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   box-sizing: border-box;
+  padding: 0 10px;
 }
 
-.selectors-container > div {
+.selectors-container > * {
   width: 100%;
-  max-width: 500px;
+  max-width: 700px;
   box-sizing: border-box;
 }
 
-.selectors-container > div > div {
-  width: 100% !important;
-  box-sizing: border-box !important;
+/* Desktop */
+@media (min-width: 1024px) {
+  .deck-control-container {
+    padding: 30px;
+  }
+
+  .deck-control-header {
+    margin-bottom: 30px;
+  }
+
+  .selectors-container {
+    gap: 20px;
+    padding: 0 20px;
+  }
 }
 
-/* Media query para dispositivos móviles */
+/* Tablet */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .deck-control-container {
+    padding: 20px;
+  }
+
+  .deck-control-header {
+    margin-bottom: 20px;
+  }
+
+  .selectors-container {
+    gap: 15px;
+    padding: 0 15px;
+  }
+}
+
+/* Mobile */
 @media (max-width: 768px) {
   .deck-control-container {
     padding: 10px;
@@ -46,45 +74,27 @@
   }
 
   .deck-control-header {
-    font-size: 1.5rem;
     margin-bottom: 15px;
   }
 
   .selectors-container {
-    gap: 10px;
-    padding-bottom: 10px;
-  }
-
-  .selectors-container > div {
-    max-width: calc(100vw - 20px);
-    width: calc(100vw - 20px);
-  }
-
-  .selectors-container > div > div {
-    width: 100% !important;
+    gap: 12px;
+    padding: 0 8px;
   }
 }
 
+/* Small Mobile */
 @media (max-width: 480px) {
   .deck-control-container {
-    padding: 5px;
+    padding: 8px;
   }
 
   .deck-control-header {
-    font-size: 1.25rem;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
 
   .selectors-container {
-    gap: 8px;
-  }
-
-  .selectors-container > div {
-    max-width: calc(100vw - 10px);
-    width: calc(100vw - 10px);
-  }
-
-  .selectors-container > div > div {
-    width: 100% !important;
+    gap: 10px;
+    padding: 0 5px;
   }
 }

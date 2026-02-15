@@ -23,11 +23,12 @@ export default function PokemonView() {
 
     socket.on("pokemon_changed", (data) => {
       // Comparamos con string o número según cómo lo envíes del backend
-      console.log(data)
+      console.log(data);
       if (String(data.slotId) === String(id)) {
         setPokemonData({
           id: data.slotId,
           pokemonId: data.pokemonId,
+          isShiny: data.isShiny,
         });
       }
     });
@@ -64,7 +65,9 @@ export default function PokemonView() {
   const spriteName = spriteNameRaw
     ? formatSpriteName(String(spriteNameRaw))
     : null;
-  const spriteUrl = spriteName ? `/pokemons/${spriteName}.png` : undefined; // Cambiado a .png para transparencia
+  const spriteUrl = spriteName
+    ? `/pokemons/${spriteName}${pokemonData.isShiny ? "s" : ""}.png`
+    : undefined; // Cambiado a .png para transparencia
   const totalFrames =
     dimensions.width > 0 && dimensions.height > 0
       ? dimensions.width / dimensions.height

@@ -45,8 +45,16 @@ export default function DeckControl() {
     socket.emit("request_initial_state");
   }, []);
 
-  const updatePokemon = (slotId: number, nuevoPokemon: number) => {
-    socket.emit("update_pokemon", { slotId, pokemonId: nuevoPokemon });
+  const updatePokemon = (slot: {
+    id: number;
+    pokemonId: number;
+    isShiny: boolean;
+  }) => {
+    socket.emit("update_pokemon", {
+      slotId: slot.id,
+      pokemonId: slot.pokemonId,
+      isShiny: slot.isShiny,
+    });
   };
 
   const getPokemonNameForSlot = (slotId: number) => {
@@ -58,16 +66,19 @@ export default function DeckControl() {
   const renderSlot = (slotId: number) => {
     const slot = status?.slots?.[slotId];
     const pokemonId = slot?.pokemonId ?? 0;
+    const isShiny = slot?.isShiny ?? false;
 
     return (
       <PokemonSelector
+        slot={slotId}
         key={slotId}
         init={{
           value: pokemonId,
           label: getPokemonNameForSlot(slotId),
+          isShiny,
         }}
         onSelect={(val) => {
-          updatePokemon(slotId, val);
+          updatePokemon(val);
         }}
       />
     );
