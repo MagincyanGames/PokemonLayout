@@ -13,3 +13,4 @@ frontend/src/data/pokemon_list.json.bak
 database.sqlite**
 scripts/parser/pokemon.txt
 
+scripts/parser/pokemon_list.json

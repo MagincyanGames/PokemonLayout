@@ -23,8 +23,12 @@ export default function PokemonView() {
 
     socket.on("pokemon_changed", (data) => {
       // Comparamos con string o número según cómo lo envíes del backend
+      console.log(data)
       if (String(data.slotId) === String(id)) {
-        setPokemonData(data);
+        setPokemonData({
+          id: data.slotId,
+          pokemonId: data.pokemonId,
+        });
       }
     });
 
@@ -44,7 +48,7 @@ export default function PokemonView() {
 
   // 3. Cálculos de animación
   // Asumimos que el spritesheet es una tira horizontal donde cada frame es un cuadrado (alto = ancho del frame)
-  const spriteNameRaw = pokemonData?.name ?? null;
+  const spriteNameRaw = pokemonData?.pokemonId ?? null;
 
   // Si el nombre es un número, los ficheros usan al menos 3 dígitos
   const formatSpriteName = (name: string) => {
