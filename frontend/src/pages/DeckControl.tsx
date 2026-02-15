@@ -1,15 +1,26 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import PokemonSelector from "../components/PokemonSelector";
-import pokemons from "../data/pokemon_list.json";
 import "./DeckControl.css";
 
 const socket = io({ transports: ["websocket"] });
 
+interface PokemonData {
+  id: number;
+  name: string;
+}
+
 export default function DeckControl() {
   const [status, setStatus] = useState<any>(null);
+  const [pokemons, setPokemons] = useState<PokemonData[]>([]);
 
   useEffect(() => {
+    // Cargar lista de pokemons
+    fetch("/pokemon_list.json")
+      .then((res) => res.json())
+      .then((data) => setPokemons(data))
+      .catch((err) => console.error("Error cargando pokemons:", err));
+
     socket.on("initial_state", (data) => {
       console.log("Estado inicial recibido:", data);
       if (data) {
@@ -42,12 +53,12 @@ export default function DeckControl() {
     <div className="deck-control-container">
       <h1 className="deck-control-header">Panel de Control</h1>
       <div className="selectors-container">
-        {status && (
+        {status && pokemons.length > 0 ? (
           <>
             <PokemonSelector
               init={{
                 value: status.slots[0].name,
-                label: pokemons[status.slots[0].name].name,
+                label: pokemons[status.slots[0].name]?.name || "---",
               }}
               onSelect={(val) => {
                 updatePokemon(0, val);
@@ -56,7 +67,7 @@ export default function DeckControl() {
             <PokemonSelector
               init={{
                 value: status.slots[1].name,
-                label: pokemons[status.slots[1].name].name,
+                label: pokemons[status.slots[1].name]?.name || "---",
               }}
               onSelect={(val) => {
                 updatePokemon(1, val);
@@ -65,7 +76,7 @@ export default function DeckControl() {
             <PokemonSelector
               init={{
                 value: status.slots[2].name,
-                label: pokemons[status.slots[2].name].name,
+                label: pokemons[status.slots[2].name]?.name || "---",
               }}
               onSelect={(val) => {
                 updatePokemon(2, val);
@@ -74,7 +85,7 @@ export default function DeckControl() {
             <PokemonSelector
               init={{
                 value: status.slots[3].name,
-                label: pokemons[status.slots[3].name].name,
+                label: pokemons[status.slots[3].name]?.name || "---",
               }}
               onSelect={(val) => {
                 updatePokemon(3, val);
@@ -83,7 +94,7 @@ export default function DeckControl() {
             <PokemonSelector
               init={{
                 value: status.slots[4].name,
-                label: pokemons[status.slots[4].name].name,
+                label: pokemons[status.slots[4].name]?.name || "---",
               }}
               onSelect={(val) => {
                 updatePokemon(4, val);
@@ -92,13 +103,15 @@ export default function DeckControl() {
             <PokemonSelector
               init={{
                 value: status.slots[5].name,
-                label: pokemons[status.slots[5].name].name,
+                label: pokemons[status.slots[5].name]?.name || "---",
               }}
               onSelect={(val) => {
                 updatePokemon(5, val);
               }}
             />
           </>
+        ) : (
+          <div style={{ color: "white", padding: "10px" }}>Cargando datos...</div>
         )}
       </div>
     </div>

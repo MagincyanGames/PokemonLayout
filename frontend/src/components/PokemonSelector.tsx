@@ -1,6 +1,7 @@
 // frontend/src/components/PokemonSelector.tsx
 import Select from "react-select";
-import pokemons from "../data/pokemon_list.json";
+import { useState, useEffect } from "react";
+
 // Datos de ejemplo
 
 interface PokemonOption {
@@ -8,19 +9,36 @@ interface PokemonOption {
   label: string;
 }
 
-const pokemonOptions: PokemonOption[] = pokemons.map((d) => {
-  return {
-    value: d.id,
-    label: d.name,
-  };
-});
-
 interface Props {
   init: PokemonOption | null;
   onSelect: (id: number) => void;
 }
 
 export default function PokemonSelector({ init, onSelect }: Props) {
+  const [pokemonOptions, setPokemonOptions] = useState<PokemonOption[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/pokemon_list.json")
+      .then((res) => res.json())
+      .then((pokemons) => {
+        const options = pokemons.map((d: { id: number; name: string }) => ({
+          value: d.id,
+          label: d.name,
+        }));
+        setPokemonOptions(options);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error cargando pokemons:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <div style={{ width: "500px", padding: "10px", color: "white" }}>Cargando pokemons...</div>;
+  }
+
   return (
     <div style={{ width: "500px" }}>
       {/* Controlamos el ancho para que sea compacto */}
@@ -29,6 +47,7 @@ export default function PokemonSelector({ init, onSelect }: Props) {
         defaultValue={init}
         placeholder="Buscar Pokémon..."
         isSearchable={true}
+        isDisabled={loading}
         onChange={(option) => option && onSelect(option.value)}
         // Estilos para hacerlo más pequeño y que quepa en el panel
         styles={{
