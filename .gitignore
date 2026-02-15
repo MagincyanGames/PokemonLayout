@@ -1,0 +1,12 @@
+node_modules
+Build
+
+backend/dist
+backend/node_modules
+backend/.sqlite
+
+frontend/dist
+frontend/node_modules
+frontend/public/pokemons
+
+database.sqlite
