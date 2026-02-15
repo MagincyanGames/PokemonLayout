@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import PokemonSelector from "../components/PokemonSelector";
-import pokemons from "../components/pokemon_list.json";
+import pokemons from "../data/pokemon_list.json";
 import "./DeckControl.css";
 
 const socket = io({ transports: ["websocket"] });

@@ -1,6 +1,6 @@
 // frontend/src/components/PokemonSelector.tsx
 import Select from "react-select";
-import pokemons from "./pokemon_list.json";
+import pokemons from "../data/pokemon_list.json";
 // Datos de ejemplo
 
 interface PokemonOption {
