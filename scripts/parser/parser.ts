@@ -11,7 +11,13 @@ function parsePokemonFile(inputPath: string, outputPath: string) {
   const fileContent = fs.readFileSync(inputPath, "utf-8");
   const lines = fileContent.split(/\r?\n/);
 
-  const pokemonList: PokemonEntry[] = [];
+  const pokemonList: PokemonEntry[] = [
+    {
+      id: 0,
+      name: "---",
+    },
+  ];
+
   let currentId: number | null = null;
   let currentName: string | null = null;
 
